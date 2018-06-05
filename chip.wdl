@@ -822,7 +822,6 @@ task filter {
 		File pbc_qc = if select_first([no_dup_removal,false]) then glob("null")[0] else glob("*.pbc.qc")[0]
 	}
 	runtime {
-		#@docker : "quay.io/encode-dcc/atac-seq-pipeline:v1"
 		cpu : select_first([cpu,2])
 		memory : "${select_first([mem_mb,'20000'])} MB"
 		time : select_first([time_hr,24])
@@ -859,7 +858,6 @@ task bam2ta {
 		File ta = glob("*.tagAlign.gz")[0]
 	}
 	runtime {
-		#@docker : "quay.io/encode-dcc/atac-seq-pipeline:v1"
 		cpu : select_first([cpu,2])
 		memory : "${select_first([mem_mb,'10000'])} MB"
 		time : select_first([time_hr,6])
@@ -939,7 +937,6 @@ task xcor {
 		Int fraglen = read_int(glob("*.cc.fraglen.txt")[0])
 	}
 	runtime {
-		#@docker : "quay.io/encode-dcc/atac-seq-pipeline:v1"
 		cpu : select_first([cpu,2])
 		memory : "${select_first([mem_mb,'10000'])} MB"
 		time : select_first([time_hr,6])
