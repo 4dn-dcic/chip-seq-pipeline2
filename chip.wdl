@@ -63,8 +63,12 @@ workflow chip {
 	String peak_caller = '' 	# default: spp for tf and macs2 for histone 
 
 	### mandatory genome param
-	File genome_tsv 			# reference genome data TSV file including
-								# all important genome specific data file paths and parameters
+	### read genome data and paths
+	File bwa_idx_tar
+	File blacklist
+	File chrsz
+	String gensz
+
 	Boolean paired_end
 
 	### optional but important
@@ -101,12 +105,6 @@ workflow chip {
 						else if peak_caller_=='macs2' then 'p.value'
 						else 'p.value'
 
-	### read genome data and paths
-	call read_genome_tsv { input:genome_tsv = genome_tsv }
-	File bwa_idx_tar = read_genome_tsv.genome['bwa_idx_tar']
-	File blacklist = read_genome_tsv.genome['blacklist']
-	File chrsz = read_genome_tsv.genome['chrsz']
-	String gensz = read_genome_tsv.genome['gensz']
 
 	### pipeline starts here
 	# temporary 2-dim arrays for DNANexus style fastqs
