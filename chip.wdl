@@ -763,6 +763,7 @@ task merge_fastq { # merge trimmed fastqs
 		Array[File] merged_fastqs = glob("merge_fastqs_R?_*.fastq.gz")
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : select_first([cpu,2])
 		memory : "${select_first([mem_mb,'12000'])} MB"
 		time : select_first([time_hr,6])
@@ -784,6 +785,7 @@ task trim_fastq { # trim fastq (for PE R1 only)
 		File trimmed_fastq = glob("*.fastq.gz")[0]
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : 1
 		memory : "8000 MB"
 		time : 1
@@ -816,6 +818,7 @@ task bwa {
 		File flagstat_qc = glob("*.flagstat.qc")[0]
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : select_first([cpu,4])
 		memory : "${select_first([mem_mb,'20000'])} MB"
 		time : select_first([time_hr,48])
@@ -863,7 +866,7 @@ task filter {
 		File pbc_qc = if select_first([no_dup_removal,false]) then glob("null")[0] else glob("*.pbc.qc")[0]
 	}
 	runtime {
-		#@docker : "quay.io/encode-dcc/atac-seq-pipeline:v1"
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : select_first([cpu,2])
 		memory : "${select_first([mem_mb,'20000'])} MB"
 		time : select_first([time_hr,24])
@@ -900,7 +903,7 @@ task bam2ta {
 		File ta = glob("*.tagAlign.gz")[0]
 	}
 	runtime {
-		#@docker : "quay.io/encode-dcc/atac-seq-pipeline:v1"
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : select_first([cpu,2])
 		memory : "${select_first([mem_mb,'10000'])} MB"
 		time : select_first([time_hr,6])
@@ -926,6 +929,7 @@ task spr { # make two self pseudo replicates
 		File ta_pr2 = glob("*.pr2.tagAlign.gz")[0]
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : 1
 		memory : "${select_first([mem_mb,'16000'])} MB"
 		time : 1
@@ -945,6 +949,7 @@ task pool_ta {
 		File ta_pooled = glob("*.tagAlign.gz")[0]
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : 1
 		memory : "4000 MB"
 		time : 1
@@ -980,7 +985,7 @@ task xcor {
 		Int fraglen = read_int(glob("*.cc.fraglen.txt")[0])
 	}
 	runtime {
-		#@docker : "quay.io/encode-dcc/atac-seq-pipeline:v1"
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : select_first([cpu,2])
 		memory : "${select_first([mem_mb,'16000'])} MB"
 		time : select_first([time_hr,6])
@@ -1012,6 +1017,7 @@ task fingerprint {
 		Array[File] jsd_qcs = glob("*.jsd.qc")
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : select_first([cpu,2])
 		memory : "${select_first([mem_mb,'12000'])} MB"
 		time : select_first([time_hr,6])
@@ -1043,6 +1049,7 @@ task choose_ctl {
 		Array[File] chosen_ctl_tas = glob("ctl_for_rep*.tagAlign.gz")
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : 1
 		memory : "8000 MB"
 		time : 1
@@ -1090,6 +1097,7 @@ task macs2 {
 		File frip_qc = glob("*.frip.qc")[0]
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : 1
 		memory : "${select_first([mem_mb,'16000'])} MB"
 		time : select_first([time_hr,24])
@@ -1126,6 +1134,7 @@ task spp {
 		File frip_qc = glob("*.frip.qc")[0]
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : select_first([cpu,2])
 		memory : "${select_first([mem_mb,'16000'])} MB"
 		time : select_first([time_hr,72])
@@ -1175,6 +1184,7 @@ task idr {
 		File frip_qc = if defined(ta) then glob("*.frip.qc")[0] else glob("null")[0]
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : 1
 		memory : "4000 MB"
 		time : 1
@@ -1216,6 +1226,7 @@ task overlap {
 		File frip_qc = if defined(ta) then glob("*.frip.qc")[0] else glob("null")[0]
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : 1
 		memory : "4000 MB"
 		time : 1
@@ -1252,6 +1263,7 @@ task reproducibility {
 		File reproducibility_qc = glob("*reproducibility.qc")[0]
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : 1
 		memory : "4000 MB"
 		time : 1
@@ -1365,6 +1377,7 @@ task qc_report {
 		Boolean qc_json_match = read_int("qc_json_match.txt")==0
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : 1
 		memory : "4000 MB"
 		time : 1
@@ -1407,6 +1420,7 @@ task rounded_mean {
 		Int rounded_mean = read_int(stdout())
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : 1
 		memory : "4000 MB"
 		time : 1
@@ -1500,6 +1514,7 @@ task compare_md5sum {
 		String json_str = read_string('result.json') # details (string)
 	}
 	runtime {
+                docker: "4dndcic/encode-chipseq:v1"
 		cpu : 1
 		memory : "4000 MB"
 		time : 1
