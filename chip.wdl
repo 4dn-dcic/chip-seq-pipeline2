@@ -734,7 +734,7 @@ workflow chip {
 		File report = qc_report.report
 		File qc_json = qc_report.qc_json
 		Boolean qc_json_match = qc_report.qc_json_match
-                File peak_calls = if(length(tas_)>1) then macs2_pooled.sig_fc
+                File peak_calls = if(macs2_pooled.sig_fc) then macs2_pooled.sig_fc
                                   else (macs2.sig_fc)[0]
 	}	
 }
