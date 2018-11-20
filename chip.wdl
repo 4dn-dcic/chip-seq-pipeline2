@@ -729,6 +729,12 @@ workflow chip {
 		idr_reproducibility_qc = reproducibility_idr.reproducibility_qc,
 		overlap_reproducibility_qc = reproducibility_overlap.reproducibility_qc,
 	}
+
+        output {
+		File report = qc_report.report
+		File qc_json = qc_report.qc_json
+                File peak_calls = select_first([macs2_pooled.sig_fc, (macs2.sig_fc)[0]])
+	}
 }
 
 task merge_fastq { # merge trimmed fastqs
