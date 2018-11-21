@@ -733,7 +733,7 @@ workflow chip {
         output {
 		File report = qc_report.report
 		File qc_json = qc_report.qc_json
-                File peak_calls = select_first([macs2_pooled.sig_fc, (macs2.sig_fc)[0]])
+                File peak_calls = select_first([macs2_pooled.sig_fc, macs2.sig_fc[0]])
 	}
 }
 
