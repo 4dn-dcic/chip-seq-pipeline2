@@ -76,9 +76,9 @@ RUN git clone --branch 2.0.4.2 --single-branch https://github.com/kundajelab/idr
 RUN wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bedClip && chmod +x bedClip
 RUN wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bedGraphToBigWig && chmod +x bedGraphToBigWig
 
-# Install samtools 1.2
-RUN git clone --branch 1.2 --single-branch https://github.com/samtools/samtools.git && \
-    git clone --branch 1.2 --single-branch git://github.com/samtools/htslib.git && \
+# Install samtools 1.9
+RUN git clone --branch 1.9 --single-branch https://github.com/samtools/samtools.git && \
+    git clone --branch 1.9 --single-branch git://github.com/samtools/htslib.git && \
     cd samtools && make && make install && cd ../ && rm -rf samtools* htslib*
 
 # Install bedtools 2.26.0
