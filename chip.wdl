@@ -731,6 +731,17 @@ workflow chip {
 		idr_reproducibility_qc = reproducibility_idr.reproducibility_qc,
 		overlap_reproducibility_qc = reproducibility_overlap.reproducibility_qc,
 	}
+
+        if(length(bam2ta.ta)>0) { File first_ta = bam2ta.ta[0] }
+        if(length(bam2ta_ctl.ta)>0) { File first_ta_ctl = bam2ta_ctl.ta[0] }
+        if(length(bam2ta_no_filt.ta)>0) { File first_ta_no_filt = bam2ta_no_filt.ta[0] }
+        if(length(bam2ta_no_filt_R1.ta)>0) { File first_ta_no_fit_R1 = bam2ta_no_filt_R1.ta[0] }
+        File first_ta_xcor = if(paired_end) then first_ta_no_fit_R1 else first_ta_no_filt
+        output {
+            first_ta
+            first_ta_ctl
+            first_ta_xcor
+        }
 }
 
 task merge_fastq { # merge trimmed fastqs
