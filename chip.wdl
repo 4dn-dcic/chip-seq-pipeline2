@@ -739,7 +739,7 @@ workflow chip {
         output {
             first_ta
             first_ta_ctl
-            File first_ta_xcor = select_first([first_ta_no_filt_R1, first_ta_no_filt])
+            File first_ta_xcor = select_first([first_ta_no_filt_R1, first_ta_no_filt, ''])
         }
 }
 
