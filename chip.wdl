@@ -736,10 +736,17 @@ workflow chip {
         if(length(bam2ta_ctl.ta)>0) { File first_ta_ctl = bam2ta_ctl.ta[0] }
         if(length(bam2ta_no_filt.ta)>0) { File first_ta_no_filt = bam2ta_no_filt.ta[0] }
         if(length(bam2ta_no_filt_R1.ta)>0) { File first_ta_no_filt_R1 = bam2ta_no_filt_R1.ta[0] }
+        if(!align_only) {
+            File sig_fc_rep1 = macs2.sig_fc[0] 
+            File sig_fc_pooled = macs2_pooled.sig_fc
+        }
         output {
             first_ta
             first_ta_ctl
             File first_ta_xcor = select_first([first_ta_no_filt_R1, first_ta_no_filt, ''])
+            File optimal_peak = select_first([reproducibility_idr.optimal_peak_bb, reproducibility_overlap.optimal_peak_bb, ''])
+            File conservative_peak = select_first([reproducibility_idr.conservative_peak_bb, reproducibility_overlap.conservative_peak_bb, ''])
+            File sig_fc = select_first([sig_fc_pooled, sig_fc_rep1, ''])
         }
 }
 
