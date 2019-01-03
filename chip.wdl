@@ -739,7 +739,7 @@ workflow chip {
         if(!align_only) {
             File sig_fc_rep1 = macs2.sig_fc[0]
             if (length(tas_)>1) {
-                File sig_fc_pooled = macs2_pooled.sig_fc
+                File? sig_fc_pooled = macs2_pooled.sig_fc
             }
         }
         output {
