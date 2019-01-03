@@ -737,8 +737,10 @@ workflow chip {
         if(length(bam2ta_no_filt.ta)>0) { File first_ta_no_filt = bam2ta_no_filt.ta[0] }
         if(length(bam2ta_no_filt_R1.ta)>0) { File first_ta_no_filt_R1 = bam2ta_no_filt_R1.ta[0] }
         if(!align_only) {
-            File sig_fc_rep1 = macs2.sig_fc[0] 
-            File sig_fc_pooled = macs2_pooled.sig_fc
+            File sig_fc_rep1 = macs2.sig_fc[0]
+            if (length(tas_)>1) {
+                File sig_fc_pooled = macs2_pooled.sig_fc
+            }
         }
         output {
             first_ta
