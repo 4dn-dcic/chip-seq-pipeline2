@@ -64,7 +64,7 @@ workflow chip {
 
 	### mandatory genome param
 	### read genome data and paths
-	File bwa_idx_tar
+	File? bwa_idx_tar
 	File blacklist
 	File chrsz
 	String gensz
