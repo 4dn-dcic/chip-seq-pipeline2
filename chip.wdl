@@ -747,6 +747,8 @@ workflow chip {
             File optimal_peak = select_first([reproducibility_idr.optimal_peak_bb, reproducibility_overlap.optimal_peak_bb, ''])
             File conservative_peak = select_first([reproducibility_idr.conservative_peak_bb, reproducibility_overlap.conservative_peak_bb, ''])
             File sig_fc = select_first([sig_fc_pooled, sig_fc_rep1, ''])
+            File report = qc_report.report
+            File qc_json = qc_report.qc_json
         }
 }
 
